@@ -20,6 +20,7 @@ if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['gender']))
 </div>';
 }
 else{
+    require "db.php";
     require "upload.php";
     $name = filter_input( INPUT_POST,'name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     echo '<div class="container">
@@ -38,13 +39,22 @@ else{
     if($filePath==null){
         $filePath="public/images/1.jpg";
     }
-    if (!file_exists('database/users.csv')) {
-        file_put_contents('database/users.csv', '');
-    }
+//    if (!file_exists('database/users.csv')) {
+//        file_put_contents('database/users.csv', '');
+//    }
     $gender=$_POST['gender'];
-    $fp = fopen('database/users.csv', 'a');
-    fwrite($fp, "$name,  $email,  $gender,  $filePath \n");
-    fclose($fp);
+
+    $sql = "INSERT INTO users (email, name, gender, password, path_to_img)
+   VALUES ('$email', '$name','$gender', '11111', '$filePath')";
+//    echo $sql;
+    $res = mysqli_query($conn, $sql);
+    if ($res) {
+        $valid = true;
+    }
+
+//    $fp = fopen('database/users.csv', 'a');
+//    fwrite($fp, "$name,  $email,  $gender,  $filePath \n");
+//    fclose($fp);
 
 }
 

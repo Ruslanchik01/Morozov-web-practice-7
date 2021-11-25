@@ -1,3 +1,10 @@
+<?php
+session_start();
+$isRestricted = false;
+if (isset($_SESSION['auth']) && $_SESSION['auth'] === true) {
+    $isRestricted = true;
+}?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,10 +20,22 @@ body{
        .container {
     width: 400px;
        }
+       .return{
+          margin-left: 150px;
+       }
    </style>
 </head>
 <body>
+
+
 <div class="container">
+    <?php
+    if($isRestricted===false)
+    {
+        echo '<a class="btn return" href="login.php">return back</a>';
+        die();
+    }
+    ?>
    <h3>Add New User</h3>
    <form action="handler.php" method="post" enctype="multipart/form-data">
        <div class="row">
